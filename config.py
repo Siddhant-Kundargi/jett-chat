@@ -1,2 +1,2 @@
-mysql_user = "root"
+mysql_user = "notroot"
 mysql_password = "password123" 
