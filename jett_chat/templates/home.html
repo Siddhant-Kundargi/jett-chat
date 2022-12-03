@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jett-Chat</title>
+    <link rel="stylesheet" href="/static/home.css">
+</head>
+<body>
+   <div class="container">
+    <div class="leftpane">
+      <div class="ce-chat-list">
+          <div class="ce-chats-container">
+              <div class="ce-active-chat-card">
+                  <div id="conversation">
+                  <div><h4 id="contact">Contact1</h4></div>
+                  <div class="ce-chat-subtitle-text"><p>last Message</p></div>
+                  <div class="ce-chat-time-text">08:55</div>
+                  </div>
+              </div>
+          </div>
+          <div class="ce-chat-form-container">
+              <div class="ce-text-input"><p>New Chat</p></div>
+              <div class="new-group"><span>&#43;</span></div>
+          </div>
+      </div>
+  </div>
+    
+    <div class="middlepane">
+        <div class="chat-feed">
+            <div class="chat-title-container">
+                <div class="chat-title">Contact1</div>
+                <div class="chat-subtitle">this is the subtitle of that Contact1</div>
+
+            </div>
+                 <div class="message-pad" id="message-pad">
+                  <div class="message-row" id="message-row">
+                    <div class="message-block" id="message-block">
+                        <img src="avatar3.jpg" width="44px" height="44px" class="message-avatar">
+                      <div class="message" id="message" name="message">
+                        <p>This is probably the message from the sender you have been waiting</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="message-row">
+                    <div class="message-block-myside">
+                      <div class="message-myside" id="message-myside">
+                        <p>This is how the message from your side looks like</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="message-row">
+                    <div class="message-block">
+                        <img src="avatar3.jpg" width="44px" height="44px" class="message-avatar">
+                      <img src="avatar1.jpg" width="350px" height="350px" class="message-image">
+                    </div>
+                  </div>
+                 </div>
+               <div class="message-form-container">
+                <div class="message-form">
+                  <div class="message-input">
+                    <input type="text" placeholder="Message" id="input_message" name="input_message">
+                  </div>
+                  <div class="image-button">
+                      <div class="picture-icon">
+                        <img src="pictureicon.png" width="30px" height="25px">
+                      </div>
+                  </div>
+                  <div class="send-button" id="send-button">
+                    <div class="send-icon">
+                      <img src="sendicon.png" width="30px" height="25px">
+                    </div>
+                  </div>
+                </div>
+               </div>
+            
+        </div>
+    </div>
+    <div class="rightpane">
+        <div class="ce-chat-settings-container">
+          <div class="ce-autocomplete-options"><h4>Contact1</h4></div>
+            <div class="ce-settings">
+                <div class="people-container">
+                  <div class="people-heading">People</div>
+                  <div class="people-symbol"><a href="C:\Users\VARSHINI\OneDrive\Desktop\straight\withpeople.html">></a></div>
+                </div>
+                <div class="people-container">
+                  <div class="people-heading">Photos</div>
+                  <div class="photos-symbol"><a href="C:\Users\VARSHINI\OneDrive\Desktop\straight\withphotos.html">></a></div>
+                </div>
+                <div class="people-container">
+                  <div class="people-heading">Options</div>
+                  <div class="options-symbol"><a href="C:\Users\VARSHINI\OneDrive\Desktop\straight\withoptions.html">></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   </div>
+
+   <script src="/static/home.js"></script>
+</body>
+</html>

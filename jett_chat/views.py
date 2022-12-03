@@ -1,0 +1,1 @@
+from jett_chat.service_method import web_app, api
