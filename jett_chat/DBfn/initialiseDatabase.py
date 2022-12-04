@@ -35,6 +35,11 @@ def initialize_database():
                 PRIMARY KEY (uname), 
                 FOREIGN KEY (uname) REFERENCES UserInfo(uname))
                 """)
+        mycursor.execute("""CREATE TABLE Conversation(uname1 varchar(30), 
+                unmae2 varchar(30), 
+                conversationId varchar(60),
+                PRIMARY KEY(conversationId))
+                """)
         
         print("Database Created")
 
