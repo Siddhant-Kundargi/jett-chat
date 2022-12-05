@@ -6,31 +6,31 @@ import jett_chat.DBfn.support as support
 import config
 from datetime import timedelta
 
-mydb, mycursor = support.get_myql_connectors()
-redis_client = redis.Redis()
+from jett_chat import mysql_connector, mongodb_connector, redis_client
+mysql_cursor = mysql_connector.cursor()
 
 def insert_token_mysql(uname,token):
     
-    existsing_record = mycursor.execute("SELECT uname FROM Token WHERE uname = %s", (uname,))
+    existsing_record = mysql_cursor.execute("SELECT uname FROM Token WHERE uname = %s", (uname,))
 
     if existsing_record:
 
-        mycursor.execute("UPDATE Token SET token = %s WHERE uname = %s", (token, uname))
+        mysql_cursor.execute("UPDATE Token SET token = %s WHERE uname = %s", (token, uname))
     else:
         
-        mycursor.execute("INSERT into Token VALUES(%s,%s)",(uname,token)) 
+        mysql_cursor.execute("INSERT into Token VALUES(%s,%s)",(uname,token)) 
 
-    mydb.commit()
+    mysql_connector.commit()
 
 def check_if_account_exists(uname):
-    mycursor.execute("SELECT uname FROM UserInfo WHERE uname = %s", (uname,))
-    user = mycursor.fetchall()
+    mysql_cursor.execute("SELECT uname FROM UserInfo WHERE uname = %s", (uname,))
+    user = mysql_cursor.fetchall()
     
     return user
 
 def add_new_user(content):
 
-    mycursor.execute("INSERT into UserInfo values (%s, %s, %s, %s)", (
+    mysql_cursor.execute("INSERT into UserInfo values (%s, %s, %s, %s)", (
             content["name"], 
             content["email"], 
             content["phone"], 
@@ -38,15 +38,15 @@ def add_new_user(content):
         )
     )
 
-    mydb.commit()
+    mysql_connector.commit()
 
-    mycursor.execute("INSERT INTO Password VALUES (%s, %s)", (
+    mysql_cursor.execute("INSERT INTO Password VALUES (%s, %s)", (
         content["uname"], 
         content["password"]
         )
     )
 
-    mydb.commit()
+    mysql_connector.commit()
 
     if check_if_account_exists(content["uname"]):
         print("User Created")
@@ -54,9 +54,9 @@ def add_new_user(content):
 
 def delete_user(uname):
 
-    mycursor.execute("DELETE FROM Token WHERE uname = %s", uname)
-    mycursor.execute("DELETE FROM Password WHERE uname = %s", uname)
-    mycursor.execute("DELETE FROM UserInfo WHERE uname = %s", uname)
+    mysql_cursor.execute("DELETE FROM Token WHERE uname = %s", uname)
+    mysql_cursor.execute("DELETE FROM Password WHERE uname = %s", uname)
+    mysql_cursor.execute("DELETE FROM UserInfo WHERE uname = %s", uname)
     return not check_if_account_exists(uname)
 
 def update_user_info(uname, user_object):
@@ -101,8 +101,8 @@ def check_token(token):
         return uname
 
     else:
-        mycursor.execute("SELECT uname FROM Token WHERE token = %s;", (token,))
-        uname = mycursor.fetchall()[0][0]
+        mysql_cursor.execute("SELECT uname FROM Token WHERE token = %s;", (token,))
+        uname = mysql_cursor.fetchall()[0][0]
 
         if uname: 
             redis_client.expire(token, timedelta(minutes=10))
