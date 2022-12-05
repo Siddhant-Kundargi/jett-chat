@@ -1,8 +1,6 @@
 from flask import render_template, abort, request, jsonify
-
 from jett_chat.DBfn import account
 from jett_chat import app
-from messaging import broker
 
 import jett_chat.errors as errors
 
@@ -70,7 +68,6 @@ def message_broker():
 
             if uname:
                 print(uname, content['content']['messageList'][0]['message'])
-
                 return "200"
             else:
                 print(content['token'], "token verification failed...")
