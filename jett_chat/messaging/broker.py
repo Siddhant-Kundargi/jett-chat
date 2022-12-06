@@ -6,6 +6,14 @@ from jett_chat import mysql_connector, mongodb_connector
 # get last message id
 # if first message
 
+def get_last_message_id(conversation_id):
+
+    conversation_collection = mongodb_connector[conversation_id]
+    
+    last_message_id = conversation_collection.find().sort("message_id")[0]
+    return last_message_id
+
+
 def get_conversation_queues(conversation_id, reciever):
 
     queue_collection = mongodb_connector["queue"]
