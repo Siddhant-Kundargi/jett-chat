@@ -30,7 +30,6 @@ def push_to_queue(conversation_id, message_id, reciever):
     setter_query = { "$set": { reciever: new_list }}
 
     queue_collection.update_one(selector_query, setter_query)
-    return 1
 
 def push_message(message, sender, reciever):
 
@@ -44,15 +43,13 @@ def push_message(message, sender, reciever):
 
     push_to_queue(conversation_id, message_id, reciever)
 
-    return 1
-
 def process_first_message(message, sender, reciever):
 
     conversation_id = sha512(sha256(sender.encode('utf-8')).hexdigest().encode('utf-8') + sha256(reciever.encode('utf-8')).hexdigest().encode('utf-8')).hexdigest()[:61]
 
     message_id = 1
 
-    mycursor.execute('INSERT INTO Conversation values(%s,%s,%s)', (sender, reciever, conversation_id,))
+    mysql_connector.execute('INSERT INTO Conversation values(%s,%s,%s)', (sender, reciever, conversation_id,))
 
     queue_collection = mongodb_connector["queue"]
 
