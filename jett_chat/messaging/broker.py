@@ -6,8 +6,12 @@ from jett_chat import mysql_connector, mongodb_connector
 
 def get_last_message_id(conversation_id):
 
+    print("getLastMessageId: 1: ",conversation_id)
+
     conversation_collection = mongodb_connector[str(conversation_id)]
-    last_message_id = conversation_collection.find().sort("message_id")[0]
+    last_message_id = conversation_collection.find().sort("message_id")[0]["messageid"]
+
+    print(last_message_id)
 
     return last_message_id
 
@@ -40,11 +44,12 @@ def push_to_queue(conversation_id, message_id, reciever):
 def push_message(message, sender, reciever):
 
     conversation_id = get_conversation_id(sender, reciever)
+    print(conversation_id)
 
     if conversation_id:
 
         print("cid id found")
-        message_id = get_last_message_id(conversation_id[0]) + 1
+        message_id = get_last_message_id(conversation_id) + 1
 
     if not conversation_id:
 
@@ -72,7 +77,7 @@ def process_first_message(sender, reciever):
     mysql_cursor.execute('INSERT INTO Conversation values(%s,%s,%s)', (sender, reciever, conversation_id,))
     mysql_connector.commit()
 
-    queue_collection = mongodb_connector["db.queue"]
+    queue_collection = mongodb_connector["queue"]
 
     queue_data = {'conversation_id': conversation_id, sender: [], reciever: []}
     queue_collection.insert_one(queue_data)
