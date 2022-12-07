@@ -9,9 +9,7 @@ def get_last_message_id(conversation_id):
     print("getLastMessageId: 1: ",conversation_id)
 
     conversation_collection = mongodb_connector[str(conversation_id)]
-    last_message_id = conversation_collection.find().sort("message_id")[0]["messageid"]
-
-    print(last_message_id)
+    last_message_id = conversation_collection.find().sort("messageid", -1)[0]["messageid"]
 
     return last_message_id
 
@@ -27,12 +25,10 @@ def push_to_queue(conversation_id, message_id, reciever):
 
     queue_collection = mongodb_connector["queue"]
 
-    old_list = []
+    old_list = get_conversation_queues(conversation_id, reciever)
 
-    try:
-        old_list = get_conversation_queues(conversation_id, reciever)
-    except:
-        pass
+    if not old_list:
+        old_list = []
 
     new_list = old_list.append(message_id)
 
@@ -48,13 +44,11 @@ def push_message(message, sender, reciever):
 
     if conversation_id:
 
-        print("cid id found")
         message_id = get_last_message_id(conversation_id) + 1
 
     if not conversation_id:
 
-        print("cid id not found")
-        process_first_message(sender, reciever)
+        conversation_id = process_first_message(sender, reciever)
         message_id = 1
 
 
@@ -81,6 +75,8 @@ def process_first_message(sender, reciever):
 
     queue_data = {'conversation_id': conversation_id, sender: [], reciever: []}
     queue_collection.insert_one(queue_data)
+
+    return conversation_id
 
 def get_new_messages(username):
     pass

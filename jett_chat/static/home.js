@@ -57,11 +57,11 @@ function sendmessage(){
                         </div>`;
                     maindiv.appendChild(userdiv);
                     var last_message = document.getElementById("conversation");
-                    last_message.innerHTML=`<div><h4>Contact1</h4></div>
+                    last_message.innerHTML=`<div><h4 id="contact">Contact1</h4></div>
                     <div class="ce-chat-subtitle-text"><p>${message}</p></div>
                     <div class="ce-chat-time-text">08:55</div>`;
 
-                    serversidemessage.innerHTML = s_message.value;
+                    // serversidemessage.innerHTML = s_message.value;
                 }
                 // let s_message = JSON.parse(xhr.responseText)["message"]
                 

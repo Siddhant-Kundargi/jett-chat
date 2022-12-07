@@ -71,7 +71,7 @@ def message_broker():
 
                 print(uname, content['content']['messageList'][0]['message'])
                 message = content['content']['messageList'][0]['message']
-                sender = uname
+                sender = uname.decode()
                 reciever = content['content']['messageList'][0]['reciever']
                 broker.push_message(message, sender, reciever)
                 return "200"
