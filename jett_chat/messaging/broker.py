@@ -2,7 +2,6 @@ import datetime
 from hashlib import sha256, sha512
 from jett_chat.messaging.access_control import get_conversation_id
 from jett_chat import mysql_connector, mongodb_connector
-# if first message
 
 def get_last_message_id(conversation_id):
 
