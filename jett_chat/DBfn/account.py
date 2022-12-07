@@ -11,9 +11,10 @@ mysql_cursor = mysql_connector.cursor()
 
 def insert_token_mysql(uname,token):
     
-    existsing_record = mysql_cursor.execute("SELECT uname FROM Token WHERE uname = %s", (uname,))
+    mysql_cursor.execute("SELECT uname FROM Token WHERE uname = %s", (uname,))
+    existing_record = mysql_cursor.fetchall()
 
-    if existsing_record:
+    if existing_record:
 
         mysql_cursor.execute("UPDATE Token SET token = %s WHERE uname = %s", (token, uname))
     else:
@@ -23,6 +24,7 @@ def insert_token_mysql(uname,token):
     mysql_connector.commit()
 
 def check_if_account_exists(uname):
+
     mysql_cursor.execute("SELECT uname FROM UserInfo WHERE uname = %s", (uname,))
     user = mysql_cursor.fetchall()
     
@@ -93,7 +95,7 @@ def generate_token(uname):
 # check token, make it active by putting it in redis cache
 def check_token(token):
 
-    uname = redis_client.get(token).decode()
+    uname = redis_client.get(token)
 
     if uname: 
         

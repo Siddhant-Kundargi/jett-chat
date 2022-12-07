@@ -23,6 +23,7 @@ contact = document.getElementById('contact').value;
 
 function sendmessage(){
     var message = document.getElementById("input_message").value;
+    var contact = document.getElementById("contact").innerHTML;
 
     if(!message){
         alert("Please type message before sending");

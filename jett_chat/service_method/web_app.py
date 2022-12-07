@@ -1,5 +1,6 @@
 from flask import render_template, abort, request, jsonify
 from jett_chat.DBfn import account
+from jett_chat.messaging import broker
 from jett_chat import app
 
 import jett_chat.errors as errors
@@ -61,14 +62,20 @@ def message_broker():
     if request.method == 'POST':
         content = request.get_json()
 
-        if content['requestPurpose'] == "messageSend":
-            print(content['content']['token'])
+        print(content)
 
+        if content['requestPurpose'] == "messageSend":
             uname = account.check_token(content['content']['token'])
 
             if uname:
+
                 print(uname, content['content']['messageList'][0]['message'])
+                message = content['content']['messageList'][0]['message']
+                sender = uname
+                reciever = content['content']['messageList'][0]['reciever']
+                broker.push_message(message, sender, reciever)
                 return "200"
+
             else:
                 print(content['token'], "token verification failed...")
                 abort(401)
@@ -78,6 +85,8 @@ def message_broker():
             print(content['token'])
 
             uname = account.check_token(content)
+
+            return "error"
 
     else:
         

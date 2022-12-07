@@ -4,12 +4,14 @@ def initialize_database():
     import pymongo
     import redis
 
-    mongodb_connector = pymongo.MongoClient('')
+    mongodb_client = pymongo.MongoClient('mongodb://localhost:27017', username="mongoadmin", password="password12123")
+
+    mongodb_connector = mongodb_client["jc"]
 
     mysql_connector = mysql.connector.connect(
         host="localhost",
-        user="root",   #creds.username,
-        password="@root123"   #creds.password
+        user="root",
+        password="@root123"
     )
 
     mycursor = mysql_connector.cursor()
@@ -50,6 +52,8 @@ def initialize_database():
     else:
         print("Database Already Exists")
 
+
+    mysql_connector.database = "user"
 
     return mysql_connector, mongodb_connector, redis.Redis()
 
