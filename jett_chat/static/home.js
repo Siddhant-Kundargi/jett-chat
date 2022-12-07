@@ -61,7 +61,7 @@ function sendmessage(){
                     <div class="ce-chat-subtitle-text"><p>${message}</p></div>
                     <div class="ce-chat-time-text">08:55</div>`;
 
-                    // serversidemessage.innerHTML = s_message.value;
+                    serversidemessage.innerHTML = s_message.value;
                 }
                 // let s_message = JSON.parse(xhr.responseText)["message"]
                 
