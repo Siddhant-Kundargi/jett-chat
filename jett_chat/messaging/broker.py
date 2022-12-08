@@ -1,11 +1,19 @@
 import datetime
 from hashlib import sha256, sha512
-from jett_chat.messaging.access_control import get_conversation_id
 from jett_chat import mysql_connector, mongodb_connector
 
-def get_last_message_id(conversation_id):
+def get_conversation_id(uname1, uname2):
 
-    print("getLastMessageId: 1: ",conversation_id)
+    mysql_cursor = mysql_connector.cursor()
+
+    mysql_cursor.execute("SELECT conversationId FROM Conversation WHERE uname1 = %s AND uname2 = %s", (uname1,uname2))
+
+    try:
+        return mysql_cursor.fetchall()[0][0]
+    except:
+        return None
+
+def get_last_message_id(conversation_id):
 
     conversation_collection = mongodb_connector[str(conversation_id)]
     last_message_id = conversation_collection.find().sort("messageid", -1)[0]["messageid"]
@@ -39,17 +47,14 @@ def push_to_queue(conversation_id, message_id, reciever):
 def push_message(message, sender, reciever):
 
     conversation_id = get_conversation_id(sender, reciever)
-    print(conversation_id)
 
     if conversation_id:
 
         message_id = get_last_message_id(conversation_id) + 1
-
-    if not conversation_id:
+    else:
 
         conversation_id = process_first_message(sender, reciever)
         message_id = 1
-
 
     conversation_collection = mongodb_connector[str(conversation_id)]
 
@@ -82,7 +87,6 @@ def get_new_messages(conversation_id, uname):
     message_collection = mongodb_connector[str(conversation_id)]
     
     converation_queue = get_conversation_queues(conversation_id, uname)
-    print(converation_queue)
 
     if converation_queue:
 

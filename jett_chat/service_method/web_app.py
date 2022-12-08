@@ -7,7 +7,6 @@ import jett_chat.errors as errors
 
 @app.route('/')
 def hello():
-    print("some stupid checked this site!")
     abort(418)
 
 
@@ -19,8 +18,6 @@ def register_new_user():
 
             content = request.get_json()
 
-            print(content)
-
             if not account.check_if_account_exists(content['uname']):
                 
                 account.add_new_user(content)
@@ -28,7 +25,6 @@ def register_new_user():
 
             else: 
 
-                print("User already exists")
                 return jsonify(
                     {
                         "error": "user_already_exists"
@@ -62,14 +58,11 @@ def message_broker():
     if request.method == 'POST':
         content = request.get_json()
 
-        print(content)
-
         if content['requestPurpose'] == "messageSend":
             uname = account.check_token(content['content']['token'])
 
             if uname:
 
-                print(uname, content['content']['messageList'][0]['message'])
                 message = content['content']['messageList'][0]['message']
                 sender = uname.decode()
                 reciever = content['content']['messageList'][0]['reciever']
@@ -77,15 +70,11 @@ def message_broker():
                 return "200"
 
             else:
-                print(content['token'], "token verification failed...")
                 abort(401)
 
         if content['requestPurpose'] == "messageRecieve":
 
-            print(content['token'])
-
             uname = account.check_token(content)
-
             return "error"
 
     else:

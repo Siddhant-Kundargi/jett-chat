@@ -4,14 +4,16 @@ def initialize_database():
     import pymongo
     import redis
 
-    mongodb_client = pymongo.MongoClient('mongodb://localhost:27017', username="mongoadmin", password="password12123")
+    import config
+
+    mongodb_client = pymongo.MongoClient('mongodb://localhost:27017') #, username="mongoadmin", password="password12123")
 
     mongodb_connector = mongodb_client["jc"]
 
     mysql_connector = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="@root123"
+        host = "localhost",
+        user = config.mysql_user,
+        password = config.mysql_password
     )
 
     mycursor = mysql_connector.cursor()
@@ -21,7 +23,7 @@ def initialize_database():
 
     if not ('user',) in list_of_databases:
 
-        print("database not found, creating one")
+        print("[!!] database not found, creating one")
 
         mycursor.execute("create database user")
         mycursor.execute("use user")
@@ -37,7 +39,7 @@ def initialize_database():
                 FOREIGN KEY (uname) REFERENCES UserInfo(uname))
                 """)
         mycursor.execute("""CREATE TABLE Password(uname varchar(30),
-                password varchar(20),
+                password varchar(64),
                 PRIMARY KEY (uname), 
                 FOREIGN KEY (uname) REFERENCES UserInfo(uname))
                 """)
@@ -47,14 +49,12 @@ def initialize_database():
                 PRIMARY KEY(conversationId))
                 """)
         
-        print("Database Created")
+        print("[+] Database Created")
 
     else:
-        print("Database Already Exists")
+        print("[*] Database Already Exists")
 
 
     mysql_connector.database = "user"
 
     return mysql_connector, mongodb_connector, redis.Redis()
-
-initialize_database()
