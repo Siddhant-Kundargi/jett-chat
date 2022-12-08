@@ -108,16 +108,16 @@ def check_token(token):
     uname = redis_client.get(token)
 
     if uname: 
-        
+
         redis_client.expire(token, timedelta(minutes=10))
-        return uname
+        return uname.decode()
 
     else:
         mysql_cursor.execute("SELECT uname FROM Token WHERE token = %s;", (token,))
         uname = mysql_cursor.fetchall()[0][0]
 
-        if uname: 
-            redis_client.expire(token, timedelta(minutes=10))
+        if uname:
+            redis_client.setex(token, timedelta(minutes=10), value=uname)
             return uname
 
         else: 

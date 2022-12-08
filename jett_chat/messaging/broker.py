@@ -88,6 +88,13 @@ def get_new_messages(conversation_id, uname):
     
     converation_queue = get_conversation_queues(conversation_id, uname)
 
+    queue_collection = mongodb_connector["queue"]
+
+    selector_query = {"conversation_id": conversation_id}
+    setter_query = { "$set": { uname: [] }}
+
+    queue_collection.update_one(selector_query, setter_query)
+
     if converation_queue:
 
         message_list = []
@@ -100,4 +107,4 @@ def get_new_messages(conversation_id, uname):
         return message_list
 
     else:
-        return None
+        return []

@@ -64,7 +64,7 @@ def message_broker():
             if uname:
 
                 message = content['content']['messageList'][0]['message']
-                sender = uname.decode()
+                sender = uname
                 reciever = content['content']['messageList'][0]['reciever']
                 broker.push_message(message, sender, reciever)
                 return "200"
@@ -74,8 +74,17 @@ def message_broker():
 
         if content['requestPurpose'] == "messageRecieve":
 
-            uname = account.check_token(content)
-            return "error"
+            uname = account.check_token(content['token'])
+            sender = content['sender']
+
+            if uname:
+
+                conversation_id = broker.get_conversation_id(sender, uname) 
+                message_list = broker.get_new_messages(conversation_id ,uname)
+                return jsonify({"messageList": list(message_list)})
+
+            else:
+                abort(401)
 
     else:
         
