@@ -6,7 +6,7 @@ def initialize_database():
 
     import config
 
-    mongodb_client = pymongo.MongoClient('mongodb://localhost:27017') #, username="mongoadmin", password="password12123")
+    mongodb_client = pymongo.MongoClient('mongodb://localhost:27017', username="mongoadmin", password="password12123")
 
     mongodb_connector = mongodb_client["jc"]
 

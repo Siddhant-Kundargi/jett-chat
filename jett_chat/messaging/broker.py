@@ -6,12 +6,22 @@ def get_conversation_id(uname1, uname2):
 
     mysql_cursor = mysql_connector.cursor()
 
-    mysql_cursor.execute("SELECT conversationId FROM Conversation WHERE uname1 = %s AND uname2 = %s", (uname1,uname2))
+    mysql_cursor.execute("SELECT conversationId FROM Conversation WHERE uname1 = %s AND uname2 = %s", (uname1, uname2))
+    conversation_id = mysql_cursor.fetchall()
 
-    try:
-        return mysql_cursor.fetchall()[0][0]
-    except:
-        return None
+    if conversation_id:
+        return conversation_id[0][0]
+
+    else:
+
+        mysql_cursor.execute("SELECT conversationId FROM Conversation WHERE uname1 = %s AND uname2 = %s", (uname2, uname1))
+        conversation_id = mysql_cursor.fetchall()
+
+        if conversation_id:
+            return conversation_id[0][0]
+
+        else:
+            return None
 
 def get_last_message_id(conversation_id):
 
@@ -108,3 +118,15 @@ def get_new_messages(conversation_id, uname):
 
     else:
         return []
+
+def get_conversations_list(uname):
+    
+    mysql_cursor = mysql_connector.cursor()
+
+    mysql_cursor.execute("SELECT uname2 FROM Conversation WHERE uname1=%s;", (uname,))
+    contacts_list = [x[0] for x in mysql_cursor.fetchall()]
+
+    mysql_cursor.execute("SELECT uname1 FROM Conversation WHERE uname2=%s;", (uname,))
+    contacts_list.extend([x[0] for x in mysql_cursor.fetchall()])
+
+    return contacts_list

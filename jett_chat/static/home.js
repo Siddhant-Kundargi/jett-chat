@@ -106,7 +106,7 @@ function sendmessage(){
 
                 if (xhr.responseText == "200"){
 
-                    renderMessageToScreen("message-block-myside", message)
+                    renderMyMessageToScreen(message)
                 } 
             }
         };

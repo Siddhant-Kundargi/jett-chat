@@ -86,6 +86,16 @@ def message_broker():
             else:
                 abort(401)
 
+        if content['requestPurpose'] == "getContactList":
+
+            uname = account.check_token(content['token'])
+
+            if uname:
+                return(jsonify(broker.get_conversations_list(uname)))
+            
+            else:
+                abort(401)
+
     else:
         
         return render_template("home.html")
