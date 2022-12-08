@@ -1,17 +1,32 @@
 import datetime
 from hashlib import sha256, sha512
-from jett_chat.messaging.access_control import get_conversation_id
 from jett_chat import mysql_connector, mongodb_connector
-# if first message
+
+def get_conversation_id(uname1, uname2):
+
+    mysql_cursor = mysql_connector.cursor()
+
+    mysql_cursor.execute("SELECT conversationId FROM Conversation WHERE uname1 = %s AND uname2 = %s", (uname1, uname2))
+    conversation_id = mysql_cursor.fetchall()
+
+    if conversation_id:
+        return conversation_id[0][0]
+
+    else:
+
+        mysql_cursor.execute("SELECT conversationId FROM Conversation WHERE uname1 = %s AND uname2 = %s", (uname2, uname1))
+        conversation_id = mysql_cursor.fetchall()
+
+        if conversation_id:
+            return conversation_id[0][0]
+
+        else:
+            return None
 
 def get_last_message_id(conversation_id):
 
-    print("getLastMessageId: 1: ",conversation_id)
-
     conversation_collection = mongodb_connector[str(conversation_id)]
-    last_message_id = conversation_collection.find().sort("message_id")[0]["messageid"]
-
-    print(last_message_id)
+    last_message_id = conversation_collection.find().sort("messageid", -1)[0]["messageid"]
 
     return last_message_id
 
@@ -27,36 +42,29 @@ def push_to_queue(conversation_id, message_id, reciever):
 
     queue_collection = mongodb_connector["queue"]
 
-    old_list = []
+    old_list = get_conversation_queues(conversation_id, reciever)
 
-    try:
-        old_list = get_conversation_queues(conversation_id, reciever)
-    except:
-        pass
+    if not old_list:
+        old_list = []
 
-    new_list = old_list.append(message_id)
+    old_list.append(message_id)
 
     selector_query = {"conversation_id": conversation_id}
-    setter_query = { "$set": { reciever: new_list }}
+    setter_query = { "$set": { reciever: old_list }}
 
     queue_collection.update_one(selector_query, setter_query)
 
 def push_message(message, sender, reciever):
 
     conversation_id = get_conversation_id(sender, reciever)
-    print(conversation_id)
 
     if conversation_id:
 
-        print("cid id found")
         message_id = get_last_message_id(conversation_id) + 1
+    else:
 
-    if not conversation_id:
-
-        print("cid id not found")
-        process_first_message(sender, reciever)
+        conversation_id = process_first_message(sender, reciever)
         message_id = 1
-
 
     conversation_collection = mongodb_connector[str(conversation_id)]
 
@@ -82,5 +90,43 @@ def process_first_message(sender, reciever):
     queue_data = {'conversation_id': conversation_id, sender: [], reciever: []}
     queue_collection.insert_one(queue_data)
 
-def get_new_messages(username):
-    pass
+    return conversation_id
+
+def get_new_messages(conversation_id, uname):
+
+    message_collection = mongodb_connector[str(conversation_id)]
+    
+    converation_queue = get_conversation_queues(conversation_id, uname)
+
+    queue_collection = mongodb_connector["queue"]
+
+    selector_query = {"conversation_id": conversation_id}
+    setter_query = { "$set": { uname: [] }}
+
+    queue_collection.update_one(selector_query, setter_query)
+
+    if converation_queue:
+
+        message_list = []
+
+        for message_id in converation_queue:
+            
+            message = message_collection.find_one({"messageid": message_id})['message']
+            message_list.append(message)
+
+        return message_list
+
+    else:
+        return []
+
+def get_conversations_list(uname):
+    
+    mysql_cursor = mysql_connector.cursor()
+
+    mysql_cursor.execute("SELECT uname2 FROM Conversation WHERE uname1=%s;", (uname,))
+    contacts_list = [x[0] for x in mysql_cursor.fetchall()]
+
+    mysql_cursor.execute("SELECT uname1 FROM Conversation WHERE uname2=%s;", (uname,))
+    contacts_list.extend([x[0] for x in mysql_cursor.fetchall()])
+
+    return contacts_list

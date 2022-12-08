@@ -1,9 +1,7 @@
 from secrets import token_hex
 from hashlib import sha256
-import redis
 
-import jett_chat.DBfn.support as support
-import config
+from jett_chat.DBfn import support
 from datetime import timedelta
 
 from jett_chat import mysql_connector, mongodb_connector, redis_client
@@ -32,26 +30,28 @@ def check_if_account_exists(uname):
 
 def add_new_user(content):
 
+    uname = content["uname"]
+    password = content["password"]
+
     mysql_cursor.execute("INSERT into UserInfo values (%s, %s, %s, %s)", (
-            content["name"], 
-            content["email"], 
-            content["phone"], 
-            content["uname"]
+        
+        content["name"], 
+        content["email"], 
+        content["phone"], 
+        content["uname"]
         )
     )
 
     mysql_connector.commit()
 
     mysql_cursor.execute("INSERT INTO Password VALUES (%s, %s)", (
-        content["uname"], 
-        content["password"]
+
+        uname, 
+        support.get_salted_password_hash(uname, password)
         )
     )
 
     mysql_connector.commit()
-
-    if check_if_account_exists(content["uname"]):
-        print("User Created")
 
 
 def delete_user(uname):
@@ -70,13 +70,23 @@ def update_user_password():
 def get_user_info():
     pass
 
-def check_password(uname, password):
 
-    password_hash = support.get_salted_password_hash(uname, password)
-    return True
 
 
 ###### Authentication ###########################################################
+
+# basic password check
+
+def check_password(uname, password):
+
+    password_hash = support.get_salted_password_hash(uname, password)
+    mysql_cursor.execute("SELECT password FROM Password WHERE uname = %s", (uname,))
+    password_from_database = mysql_cursor.fetchone()[0]
+
+    if password_hash == password_from_database:
+        return True
+    else:
+        return False
 
 # generate token for user and store
 def generate_token(uname):
@@ -98,16 +108,16 @@ def check_token(token):
     uname = redis_client.get(token)
 
     if uname: 
-        
+
         redis_client.expire(token, timedelta(minutes=10))
-        return uname
+        return uname.decode()
 
     else:
         mysql_cursor.execute("SELECT uname FROM Token WHERE token = %s;", (token,))
         uname = mysql_cursor.fetchall()[0][0]
 
-        if uname: 
-            redis_client.expire(token, timedelta(minutes=10))
+        if uname:
+            redis_client.setex(token, timedelta(minutes=10), value=uname)
             return uname
 
         else: 
@@ -118,9 +128,7 @@ def process_login(content):
 
     uname = content['uname']
     password = content['password']
-    
-    password_hash = sha256((uname + sha256(password.encode()).hexdigest()).encode()).hexdigest()
 
-    if check_password(uname, password_hash):
+    if check_password(uname, password):
 
         return generate_token(uname)
