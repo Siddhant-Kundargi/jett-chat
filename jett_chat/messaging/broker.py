@@ -29,10 +29,10 @@ def push_to_queue(conversation_id, message_id, reciever):
     if not old_list:
         old_list = []
 
-    new_list = old_list.append(message_id)
+    old_list.append(message_id)
 
     selector_query = {"conversation_id": conversation_id}
-    setter_query = { "$set": { reciever: new_list }}
+    setter_query = { "$set": { reciever: old_list }}
 
     queue_collection.update_one(selector_query, setter_query)
 
@@ -77,5 +77,23 @@ def process_first_message(sender, reciever):
 
     return conversation_id
 
-def get_new_messages(username):
-    pass
+def get_new_messages(conversation_id, uname):
+
+    message_collection = mongodb_connector[str(conversation_id)]
+    
+    converation_queue = get_conversation_queues(conversation_id, uname)
+    print(converation_queue)
+
+    if converation_queue:
+
+        message_list = []
+
+        for message_id in converation_queue:
+            
+            message = message_collection.find_one({"messageid": message_id})['message']
+            message_list.append(message)
+
+        return message_list
+
+    else:
+        return None
