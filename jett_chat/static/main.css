@@ -1,9 +1,9 @@
 .agree{
   text-align: left;
 }
-/* ==========================================================================
+/* 
    #FONT
-   ========================================================================== */
+    */
 .font-robo {
   font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
 }
@@ -12,9 +12,9 @@
   font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif;
 }
 
-/* ==========================================================================
+/* 
    #GRID
-   ========================================================================== */
+ */
 .row {
   display: -webkit-box;
   display: -webkit-flex;
@@ -46,9 +46,9 @@
   }
 }
 
-/* ==========================================================================
+/* 
    #BOX-SIZING
-   ========================================================================== */
+ */
 /**
  * More sensible default box-sizing:
  * css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
@@ -70,9 +70,9 @@ html {
   box-sizing: inherit;
 }
 
-/* ==========================================================================
+/* 
    #RESET
-   ========================================================================== */
+ */
 /**
  * A very simple reset that sits on top of Normalize.css.
  */
@@ -119,9 +119,9 @@ button {
   border: none;
 }
 
-/* ==========================================================================
+/* 
    #PAGE WRAPPER
-   ========================================================================== */
+*/
 .page-wrapper {
   min-height: 100vh;
 }
@@ -160,9 +160,9 @@ h6 {
   font-size: 13px;
 }
 
-/* ==========================================================================
+/*
    #BACKGROUND
-   ========================================================================== */
+  */
 .bg-blue {
   background: #2c6ed5;
 }
@@ -172,24 +172,24 @@ h6 {
 }
 
 .bg-gra-01 {
-  background: -webkit-gradient(linear, left bottom, left top, from(#fbc2eb), to(#a18cd1));
-  background: -webkit-linear-gradient(bottom, #fbc2eb 0%, #a18cd1 100%);
-  background: -moz-linear-gradient(bottom, #fbc2eb 0%, #a18cd1 100%);
-  background: -o-linear-gradient(bottom, #fbc2eb 0%, #a18cd1 100%);
-  background: linear-gradient(to top, #fbc2eb 0%, #a18cd1 100%);
+  background: -webkit-gradient(linear, left bottom, left top, from(#3a64e3), to(#a18cd1));
+  background: -webkit-linear-gradient(bottom, #3759c0 0%, #7a4ce3 100%);
+  background: -moz-linear-gradient(bottom, #2c50bc 0%, #7146d7 100%);
+  background: -o-linear-gradient(bottom, #4564c1 0%, #7f55e0 100%);
+  background: linear-gradient(to top, #2858e7 0%, #6d40d6 100%);
 }
 
 .bg-gra-02 {
-  background: -webkit-gradient(linear, left bottom, right top, from(#fc2c77), to(#6c4079));
-  background: -webkit-linear-gradient(bottom left, #fc2c77 0%, #6c4079 100%);
-  background: -moz-linear-gradient(bottom left, #fc2c77 0%, #6c4079 100%);
-  background: -o-linear-gradient(bottom left, #fc2c77 0%, #6c4079 100%);
-  background: linear-gradient(to top right, #fc2c77 0%, #6c4079 100%);
+  background: -webkit-gradient(linear, left bottom, right top, from(#4263c6), to(#5e80cb));
+  background: -webkit-linear-gradient(bottom left, #607ac7 0%, #4f7ad7 100%);
+  background: -moz-linear-gradient(bottom left, #4969c8 0%, #4167ba 100%);
+  background: -o-linear-gradient(bottom left, #4564c1 0%, #4f7ad7 100%);
+  background: linear-gradient(to top right, #5070d1 0%, #4f7ad7 100%);
 }
 
-/* ==========================================================================
+/* 
    #SPACING
-   ========================================================================== */
+   */
 .p-t-100 {
   padding-top: 100px;
 }
@@ -226,9 +226,9 @@ h6 {
   margin-right: 45px;
 }
 
-/* ==========================================================================
+/* 
    #WRAPPER
-   ========================================================================== */
+   */
 .wrapper {
   margin: 0 auto;
   margin-top: -50px;
@@ -246,9 +246,9 @@ h6 {
   max-width: 680px;
 }
 
-/* ==========================================================================
+/* 
    #BUTTON
-   ========================================================================== */
+    */
 .btn {
   display: inline-block;
   line-height: 50px;
@@ -297,9 +297,9 @@ h6 {
   background: #3868cd;
 }
 
-/* ==========================================================================
+/* 
    #DATE PICKER
-   ========================================================================== */
+   */
 td.active {
   background-color: #2c6ed5;
 }
@@ -347,9 +347,9 @@ input[type="date" i] {
   outline: none;
 }
 
-/* ==========================================================================
+/* 
    #FORM
-   ========================================================================== */
+    */
 input {
   outline: none;
   margin: 0;
@@ -507,9 +507,9 @@ input {
   cursor: pointer;
 }
 
-/* ==========================================================================
+/* 
    #SELECT2
-   ========================================================================== */
+    */
 .select--no-search .select2-search {
   display: none !important;
 }
@@ -603,9 +603,9 @@ input {
   padding-left: 22px;
 }
 
-/* ==========================================================================
+/* 
    #TITLE
-   ========================================================================== */
+*/
 .title {
   font-size: 24px;
   color: #525252;
@@ -613,9 +613,9 @@ input {
   margin-bottom: 40px;
 }
 
-/* ==========================================================================
+/* 
    #CARD
-   ========================================================================== */
+*/
 .card {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
