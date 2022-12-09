@@ -26,7 +26,7 @@ function leave_it(evt, contactName,contact_email){
     // Show the current tab, and add an "active" class to the link that opened the tab
     const parentdiv = document.getElementById("chat-feed");
     let newdiv = document.createElement("new_middlepane");
-    newdiv.id = "kamal"
+    newdiv.id = "Contact1"
     newdiv.innerHTML = `
     <div class="chat-feed">
       <div class="chat-title-container">
