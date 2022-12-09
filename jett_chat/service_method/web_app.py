@@ -58,10 +58,12 @@ def message_broker():
     if request.method == 'POST':
         content = request.get_json()
 
-        if content['token']:
+        if content['content']['token']:
+
+            token = content['content']['token']
 
             if content['requestPurpose'] == "messageSend":
-                uname = account.check_token(content['content']['token'])
+                uname = account.check_token(token)
 
                 if uname:
 
@@ -76,11 +78,12 @@ def message_broker():
 
             if content['requestPurpose'] == "messageRecieve":
 
-                uname = account.check_token(content['token'])
+                uname = account.check_token(token)
                 sender = content['sender']
 
                 if uname:
-
+                    
+                    print(sender, uname)
                     conversation_id = broker.get_conversation_id(sender, uname) 
                     message_list = broker.get_new_messages(conversation_id ,uname)
                     return jsonify({"messageList": list(message_list)})
@@ -90,10 +93,10 @@ def message_broker():
 
             if content['requestPurpose'] == "getContactList":
 
-                uname = account.check_token(content['token'])
+                uname = account.check_token(token)
 
                 if uname:
-                    return(jsonify(broker.get_conversations_list(uname)))
+                    return jsonify({"contactList": broker.get_conversations_list(uname)})
                 
                 else:
                     abort(401)

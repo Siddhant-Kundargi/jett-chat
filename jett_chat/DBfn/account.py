@@ -85,7 +85,7 @@ def check_password(uname, password):
 
     if password_from_database:
 
-        if password_hash == password_from_database:
+        if password_hash == password_from_database[0]:
             return True
         else:
             return False
@@ -119,9 +119,10 @@ def check_token(token):
 
     else:
         mysql_cursor.execute("SELECT uname FROM Token WHERE token = %s;", (token,))
-        uname = mysql_cursor.fetchall()[0][0]
+        uname = mysql_cursor.fetchall()
 
         if uname:
+            uname = uname[0][0]
             redis_client.setex(token, timedelta(minutes=10), value=uname)
             return uname
 

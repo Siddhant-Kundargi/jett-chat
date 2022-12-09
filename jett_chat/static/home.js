@@ -2,39 +2,82 @@ let send = document.getElementById("send-button");
 send.addEventListener("click", sendmessage);
 contact = document.getElementById('contact').value;
 
-setInterval(recievemessage,3000);
 
-function create_contact(){
+// setInterval(recievemessage,3000);
 
-    let j = 0;
-    while(JSON.parse(responseText)["content"]["contactList"][0] != NULL){
-
-        contact = JSON.parse(responseText)["content"]["contactList"][j]
-        var time = new Date(),
-        h = (time.getHours()<10?'0':'') + d.getHours(),
-        m = (time.getMinutes()<10?'0':'') + d.getMinutes();
-        i.value = h + ':' + m;
-
-        const parentdiv = document.getElementById('ce-active-chat-card');
-        let newdiv = document.createElement("new_contact");
-        newdiv.id = "new_contact"
-        newdiv.innerHTML = `<div id="conversation">
-        <div><h4>${contact}</h4></div>
-        <div class="ce-chat-subtitle-text"><p>last Message</p></div>
-        <div class="ce-chat-time-text">${i}</div>
-        </div>`
-
-        parentdiv.append(newdiv);
-        j = j+1;
+function respectiveMessagePad(evt,contactName){
+    var i, tabcontent, tablinks;
+  
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("middlepane");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
     }
-
+  
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("ce-conversation");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+  
+    // Show the current tab, and add an "active" class to the link that opened the tab
+    document.getElementById(contactName).style.display = "block";
+    evt.currentTarget.className += " active";
 }
 
-var contact = JSON.stringify({
-    "requestPurpose": "getContactList",
-    "token": localStorage.getItem("token"),
+function recieve_contacts(){
+    let xhr1 = new XMLHttpRequest();
+    let url = "/home";
 
-});
+    xhr1.open("POST", url, true);
+
+    xhr1.setRequestHeader("Content-Type", "application/json");
+
+    xhr1.onreadystatechange = function(){
+
+        if (xhr1.readyState === 4 && xhr1.status === 200){
+
+            console.log(xhr1.responseText)
+            contactList = JSON.parse(xhr1.responseText)["contactList"]
+
+            for (let i = 0; i < contactList.length; i++) {
+                
+                let element = contactList[i];
+
+                contact = element
+                let time = new Date(),
+                h = (time.getHours()<10?'0':'') + time.getHours(),
+                m = (time.getMinutes()<10?'0':'') + time.getMinutes();
+                let j = h + ':' + m;
+
+                const parentdiv = document.getElementById("ce-chats-container");
+                console.log(parentdiv.innerHTML)
+                let newdiv = document.createElement("new_contact");
+                newdiv.id = "new_contact"
+                newdiv.innerHTML = `<div id="conversation" onclick = "respectiveMessagePad(event,${contact})">
+                <div><h4>${contact}</h4></div>
+                <div class="ce-chat-subtitle-text"><p>last Message</p></div>
+                <div class="ce-chat-time-text">${j}</div>
+                </div>`
+
+                parentdiv.append(newdiv);
+            }
+        }
+    };
+
+    
+    let contact = JSON.stringify({
+        "requestPurpose": "getContactList",
+        "content": {
+            "token": localStorage.getItem("token")
+        }
+    });
+
+    console.log(contact);
+    xhr1.send(contact);
+}
+
+recieve_contacts()
 
 function renderSendersMessage(message){
 
@@ -107,7 +150,9 @@ function recievemessage(){
     let data = JSON.stringify({
 
         "requestPurpose": "messageRecieve",
-        "token": localStorage.getItem("token"),
+        "content": {
+            "token": localStorage.getItem("token"),
+        },
         "sender": document.getElementById("contact").innerHTML
     })
     
