@@ -1,6 +1,11 @@
 let send = document.getElementById("send-button");
 send.addEventListener("click", sendmessage);
-contact = document.getElementById('contact').value;
+contact = document.getElementById('Contactonpage').value;
+
+function original(){
+  document.getElementById("chat-feed").style.display = "none";
+  document.getElementById("sid").style.display = "block";
+}
 
 let messages = {}
 
@@ -57,10 +62,19 @@ function leave_it(evt, contactName,contact_email){
     newdiv.innerHTML = `
     <div class="chat-feed" id="chat-feed">
       <div class="chat-title-container">
-          <div class="chat-title" id="Contact" >${contactName}</div>
+          <div class="chat-title" id="Contactonpage" >${contactName}</div>
           <div class="chat-subtitle">${contact_email}</div>
 
       </div>
+      <div class="message-pad" id="message-pad">
+                  <div class="message-row" id="message-row">
+                    <div class="message-block" id="message-block">
+                        <img src="/static/images/avatar3.jpg" width="44px" height="44px" class="message-avatar">
+                      <div class="message" id="message" name="message">
+                        <p>This is probably the message from the sender you have been waiting</p>
+                      </div>
+                    </div>
+                  </div></div>
     </div>
     `
 
@@ -117,7 +131,7 @@ function recieve_contacts(){
                 m = (time.getMinutes()<10?'0':'') + time.getMinutes();
                 let j = h + ':' + m;
 
-                const parentdiv = document.getElementById("ce-chats-container");
+                const parentdiv = document.getElementById("ce-active-chat-card");
                 console.log(parentdiv.innerHTML)
                 let newdiv = document.createElement("new_contact");
                 newdiv.id = "new_contact"
@@ -182,10 +196,10 @@ function renderMyMessageToScreen(message) {
             </div>
         </div>`;
     maindiv.appendChild(userdiv);
-    let last_message = document.getElementById("conversation");
-    last_message.innerHTML=`<div><h4 id="Contact">sid</h4></div>
-    <div class="ce-chat-subtitle-text"><p>${message}</p></div>
-    <div class="ce-chat-time-text">08:55</div>`;
+    // let last_message = document.getElementById("conversation");
+    // last_message.innerHTML=`<div><h4 id="Contact">sid</h4></div>
+    // <div class="ce-chat-subtitle-text"><p>${message}</p></div>
+    // <div class="ce-chat-time-text">08:55</div>`;
 }
 
 function recievemessage(){
@@ -230,7 +244,7 @@ function recievemessage(){
 
 function sendmessage(){
     let message = document.getElementById("input_message").value;
-    let contact = document.getElementById("Contact").innerHTML;
+    let contact = document.getElementById("Contactonpage").innerHTML;
 
     if(!message){
         alert("Please type message before sending");
