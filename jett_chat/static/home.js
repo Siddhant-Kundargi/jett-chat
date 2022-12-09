@@ -62,7 +62,7 @@ function leave_it(evt, contactName,contact_email){
     // Show the current tab, and add an "active" class to the link that opened the tab
     const parentdiv = document.getElementById("chat-feed");
     let newdiv = document.createElement("new_middlepane");
-    newdiv.id = "Contact1"
+    newdiv.id = contactName
     newdiv.innerHTML = `
     <div class="chat-feed" id="chat-feed">
       <div class="chat-title-container">
@@ -70,7 +70,7 @@ function leave_it(evt, contactName,contact_email){
           <div class="chat-subtitle">${contact_email}</div>
 
       </div>
-      <div class="message-pad" id="message-pad-e">
+      <div class="message-pad" id="message-pad-${contactName}">
                   <div class="message-row" id="message-row">
                     <div class="message-block" id="message-block">
                         <img src="/static/images/avatar3.jpg" width="44px" height="44px" class="message-avatar">
@@ -167,10 +167,11 @@ recieve_contacts()
 function renderSendersMessage(message){
 
     const maindiv = document.getElementById("message-pad");
+    contactName = document.getElementById("Contactonpage");
     let userdiv = document.createElement("div");
     userdiv.id = "user";
     userdiv.innerHTML = `</div>
-             <div class="message-pad" id="message-pad">
+             <div class="message-pad" id="message-pad-${contactName}">
               <div class="message-row" id="message-row">
                 <div class="message-block" id="message-block">
                     <img src="avatar3.jpg" width="44px" height="44px" class="message-avatar">
@@ -189,7 +190,7 @@ function renderSendersMessage(message){
 
 function renderMyMessageToScreen(message) {
 
-    const maindiv = document.getElementById("message-pad-e");
+    const maindiv = document.getElementById("message-pad");
     let userdiv = document.createElement("div");
     userdiv.id = "user";
     userdiv.innerHTML = `<div class="message-row">
