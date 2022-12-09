@@ -3,7 +3,11 @@ send.addEventListener("click", sendmessage);
 contact = document.getElementById('Contactonpage').value;
 
 function original(){
-  document.getElementById("chat-feed").style.display = "none";
+  tabcontent = document.getElementsByClassName("chat-feed");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "block";
+  }
+  document.getElementById("Contact1").style.display = "none";
   document.getElementById("sid").style.display = "block";
 }
 
