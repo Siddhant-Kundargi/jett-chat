@@ -55,15 +55,13 @@ function leave_it(evt, contactName,contact_email){
     let newdiv = document.createElement("new_middlepane");
     newdiv.id = "Contact1"
     newdiv.innerHTML = `
-    <div class="chat-feed">
+    <div class="chat-feed" id="chat-feed">
       <div class="chat-title-container">
           <div class="chat-title" id="Contact" >${contactName}</div>
           <div class="chat-subtitle">${contact_email}</div>
 
       </div>
-           
-         
-      
+    </div>
     `
 
     parentdiv.append(newdiv);
