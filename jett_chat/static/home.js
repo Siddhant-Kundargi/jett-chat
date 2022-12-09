@@ -2,16 +2,16 @@ let send = document.getElementById("send-button");
 send.addEventListener("click", sendmessage);
 contact = document.getElementById('contact').value;
 
-let message = {}
+let messages = {}
 
 function storeMessages(contact, message, side) {
     
-    if(message[contact]){
+    if(messages[contact]){
 
-        message[contact].push([message, side])
+        messages[contact].push([message, side])
     } else {
 
-        message[contact] = [[message, side]]
+        messages[contact] = [[message, side]]
     }
 }
 
