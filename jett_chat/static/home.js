@@ -81,7 +81,7 @@ function leave_it(evt, contactName,contact_email){
 
     parentdiv.append(newdiv);
     console.log(newdiv);
-    document.getElementById("dhruva").style.display = "none";
+    document.getElementById("sid").style.display = "none";
     document.getElementById("chat-feed").style.display = "block";
     evt.currentTarget.className += " active";
     
