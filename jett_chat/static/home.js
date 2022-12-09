@@ -61,31 +61,7 @@ function leave_it(evt, contactName,contact_email){
           <div class="chat-subtitle">${contact_email}</div>
 
       </div>
-           <div class="message-pad" id="message-pad">
-            <div class="message-row" id="message-row">
-              <div class="message-block" id="message-block">
-                  <img src="/static/images/avatar3.jpg" width="44px" height="44px" class="message-avatar">
-                <div class="message" id="message" name="message">
-                  <p>This is probably the message from the sender you have been waiting</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="message-row">
-              <div class="message-block-myside">
-                <div class="message-myside" id="message-myside">
-                  <p>This is how the message from your side looks like</p>
-                </div>
-              </div>
-            </div>
-            
-            <div class="message-row">
-              <div class="message-block">
-                  <img src="/static/images/avatar3.jpg" width="44px" height="44px" class="message-avatar">
-                <img src="/static/images/avatar1.jpg" width="350px" height="350px" class="message-image">
-              </div>
-            </div>
-           </div>
+           
          
       
     `
