@@ -2,6 +2,33 @@ let send = document.getElementById("send-button");
 send.addEventListener("click", sendmessage);
 contact = document.getElementById('contact').value;
 
+let message = {}
+
+function storeMessages(contact, message, side) {
+    
+    if(message[contact]){
+
+        message[contact].push([message, side])
+    } else {
+
+        message[contact] = [[message, side]]
+    }
+}
+
+function reRenderMessages(contact) {
+
+    for (let i = 0; i < messages[contact].length; i++) {
+      const element = messages[contact][i];
+      
+      if (element[2]) {
+        
+        renderMyMessageToScreen(element[1])
+      } else {
+
+        renderSendersMessage(element[1])
+      }
+    }
+}
 
 // setInterval(recievemessage,3000);
 
@@ -30,7 +57,7 @@ function leave_it(evt, contactName,contact_email){
     newdiv.innerHTML = `
     <div class="chat-feed">
       <div class="chat-title-container">
-          <div class="chat-title">${contactName}</div>
+          <div class="chat-title" id="Contact" >${contactName}</div>
           <div class="chat-subtitle">${contact_email}</div>
 
       </div>
@@ -179,7 +206,7 @@ function renderSendersMessage(message){
 
     maindiv.appendChild(userdiv);
     let last_message = document.getElementById("conversation");
-    last_message.innerHTML=`<div><h4 id="contact">sid</h4></div>
+    last_message.innerHTML=`<div><h4 id="Contact">sid</h4></div>
     <div class="ce-chat-subtitle-text"><p>${message}</p></div>
     <div class="ce-chat-time-text">08:55</div>`;
 }
@@ -198,7 +225,7 @@ function renderMyMessageToScreen(message) {
         </div>`;
     maindiv.appendChild(userdiv);
     let last_message = document.getElementById("conversation");
-    last_message.innerHTML=`<div><h4 id="contact">sid</h4></div>
+    last_message.innerHTML=`<div><h4 id="Contact">sid</h4></div>
     <div class="ce-chat-subtitle-text"><p>${message}</p></div>
     <div class="ce-chat-time-text">08:55</div>`;
 }
@@ -225,6 +252,7 @@ function recievemessage(){
 
                 console.log(message)
                 renderSendersMessage(message)
+                storeMessages(document.getElementById("Contact").innerHTML, message, 1)
             }
         }
     };
@@ -235,7 +263,7 @@ function recievemessage(){
         "content": {
             "token": localStorage.getItem("token"),
         },
-        "sender": document.getElementById("contact").innerHTML
+        "sender": document.getElementById("Contact").innerHTML
     })
     
     console.log(data);
@@ -244,7 +272,7 @@ function recievemessage(){
 
 function sendmessage(){
     let message = document.getElementById("input_message").value;
-    let contact = document.getElementById("contact").innerHTML;
+    let contact = document.getElementById("Contact").innerHTML;
 
     if(!message){
         alert("Please type message before sending");
@@ -267,6 +295,7 @@ function sendmessage(){
                 if (xhr.responseText == "200"){
 
                     renderMyMessageToScreen(message)
+                    storeMessages(contact, message, 0)
                 } 
             }
         };
