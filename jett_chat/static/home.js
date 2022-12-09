@@ -96,7 +96,7 @@ function leave_it(evt, contactName,contact_email){
                   <img src="/static/images/pictureicon.png" width="30px" height="25px">
                 </div>
             </div>
-            <div class="send-button" id="send-button">
+            <div class="send-button" id="send-button" onclick="sendmessage()">
               <div class="send-icon">
                 <img src="/static/images/sendicon.png" width="30px" height="25px">
               </div>
