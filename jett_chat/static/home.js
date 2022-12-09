@@ -86,23 +86,7 @@ function leave_it(evt, contactName,contact_email){
               </div>
             </div>
            </div>
-         <div class="message-form-container">
-          <div class="message-form">
-            <div class="message-input">
-              <input type="text" placeholder="Type your Message here" id="input_message" name="input_message">
-            </div>
-            <div class="image-button">
-                <div class="picture-icon">
-                  <img src="/static/images/pictureicon.png" width="30px" height="25px">
-                </div>
-            </div>
-            <div class="send-button" id="send-button" onclick="sendmessage()">
-              <div class="send-icon">
-                <img src="/static/images/sendicon.png" width="30px" height="25px">
-              </div>
-            </div>
-          </div>
-         </div>
+         
       
     `
 
