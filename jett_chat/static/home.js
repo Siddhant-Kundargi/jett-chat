@@ -70,7 +70,7 @@ function leave_it(evt, contactName,contact_email){
           <div class="chat-subtitle">${contact_email}</div>
 
       </div>
-      <div class="message-pad" id="message-pad-${contactName}">
+      <div class="message-pad" id="message-pad">
                   <div class="message-row" id="message-row">
                     <div class="message-block" id="message-block">
                         <img src="/static/images/avatar3.jpg" width="44px" height="44px" class="message-avatar">
@@ -167,11 +167,10 @@ recieve_contacts()
 function renderSendersMessage(message){
 
     const maindiv = document.getElementById("message-pad");
-    contactName = document.getElementById("Contactonpage");
     let userdiv = document.createElement("div");
     userdiv.id = "user";
     userdiv.innerHTML = `</div>
-             <div class="message-pad" id="message-pad-${contactName}">
+             <div class="message-pad" id="message-pad">
               <div class="message-row" id="message-row">
                 <div class="message-block" id="message-block">
                     <img src="avatar3.jpg" width="44px" height="44px" class="message-avatar">
