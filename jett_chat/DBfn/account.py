@@ -81,10 +81,15 @@ def check_password(uname, password):
 
     password_hash = support.get_salted_password_hash(uname, password)
     mysql_cursor.execute("SELECT password FROM Password WHERE uname = %s", (uname,))
-    password_from_database = mysql_cursor.fetchone()[0]
+    password_from_database = mysql_cursor.fetchone()
 
-    if password_hash == password_from_database:
-        return True
+    if password_from_database:
+
+        if password_hash == password_from_database:
+            return True
+        else:
+            return False
+
     else:
         return False
 

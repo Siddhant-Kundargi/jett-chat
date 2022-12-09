@@ -3,6 +3,39 @@ send.addEventListener("click", sendmessage);
 contact = document.getElementById('contact').value;
 
 setInterval(recievemessage,3000);
+
+function create_contact(){
+
+    let j = 0;
+    while(JSON.parse(responseText)["content"]["contactList"][0] != NULL){
+
+        contact = JSON.parse(responseText)["content"]["contactList"][j]
+        var time = new Date(),
+        h = (time.getHours()<10?'0':'') + d.getHours(),
+        m = (time.getMinutes()<10?'0':'') + d.getMinutes();
+        i.value = h + ':' + m;
+
+        const parentdiv = document.getElementById('ce-active-chat-card');
+        let newdiv = document.createElement("new_contact");
+        newdiv.id = "new_contact"
+        newdiv.innerHTML = `<div id="conversation">
+        <div><h4>${contact}</h4></div>
+        <div class="ce-chat-subtitle-text"><p>last Message</p></div>
+        <div class="ce-chat-time-text">${i}</div>
+        </div>`
+
+        parentdiv.append(newdiv);
+        j = j+1;
+    }
+
+}
+
+var contact = JSON.stringify({
+    "requestPurpose": "getContactList",
+    "token": localStorage.getItem("token"),
+
+});
+
 function renderSendersMessage(message){
 
     const maindiv = document.getElementById("message-pad");

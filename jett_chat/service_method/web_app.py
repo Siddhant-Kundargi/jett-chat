@@ -58,43 +58,48 @@ def message_broker():
     if request.method == 'POST':
         content = request.get_json()
 
-        if content['requestPurpose'] == "messageSend":
-            uname = account.check_token(content['content']['token'])
+        if content['token']:
 
-            if uname:
+            if content['requestPurpose'] == "messageSend":
+                uname = account.check_token(content['content']['token'])
 
-                message = content['content']['messageList'][0]['message']
-                sender = uname
-                reciever = content['content']['messageList'][0]['reciever']
-                broker.push_message(message, sender, reciever)
-                return "200"
+                if uname:
 
-            else:
-                abort(401)
+                    message = content['content']['messageList'][0]['message']
+                    sender = uname
+                    reciever = content['content']['messageList'][0]['reciever']
+                    broker.push_message(message, sender, reciever)
+                    return "200"
 
-        if content['requestPurpose'] == "messageRecieve":
+                else:
+                    abort(401)
 
-            uname = account.check_token(content['token'])
-            sender = content['sender']
+            if content['requestPurpose'] == "messageRecieve":
 
-            if uname:
+                uname = account.check_token(content['token'])
+                sender = content['sender']
 
-                conversation_id = broker.get_conversation_id(sender, uname) 
-                message_list = broker.get_new_messages(conversation_id ,uname)
-                return jsonify({"messageList": list(message_list)})
+                if uname:
 
-            else:
-                abort(401)
+                    conversation_id = broker.get_conversation_id(sender, uname) 
+                    message_list = broker.get_new_messages(conversation_id ,uname)
+                    return jsonify({"messageList": list(message_list)})
 
-        if content['requestPurpose'] == "getContactList":
+                else:
+                    abort(401)
 
-            uname = account.check_token(content['token'])
+            if content['requestPurpose'] == "getContactList":
 
-            if uname:
-                return(jsonify(broker.get_conversations_list(uname)))
-            
-            else:
-                abort(401)
+                uname = account.check_token(content['token'])
+
+                if uname:
+                    return(jsonify(broker.get_conversations_list(uname)))
+                
+                else:
+                    abort(401)
+
+        else:
+            return "401"
 
     else:
         
