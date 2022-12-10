@@ -23,8 +23,8 @@ function sendJSONdet(){
         xhr.onreadystatechange = function(){
             if (xhr.readyState === 4 && xhr.status === 200){
                 
-                result.innerHTML = this.responseText;
-                if(xhr.status = 200){
+                let result = this.responseText;
+                if(result == "User Created"){
                     document.location.href = "/login"
                 }
             }
