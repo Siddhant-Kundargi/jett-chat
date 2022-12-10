@@ -2,6 +2,7 @@ function setToken(token){
     
     console.log(token);                              // debug
     localStorage.setItem("token", token)             // store token value
+    document.location.href = "/home"
 }
 
 function sendJSON(){
