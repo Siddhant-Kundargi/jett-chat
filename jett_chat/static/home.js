@@ -39,20 +39,14 @@ function reRenderMessages(contact) {
     }
 }
 
-// setInterval(recievemessage,3000);
+setInterval(recievemessage,3000);
 
-function leave_it(evt, contactName,contact_email){
+function leave_it(contactName, contact_email){
 
   
     // Declare all variables
     var i, tabcontent, tablinks;
-  
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("chat-feed");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-    }
-  
+
     // Get all elements with class="tablinks" and remove the class "active"
     tablinks = document.getElementsByClassName("ce-conversation");
     for (i = 0; i < tablinks.length; i++) {
@@ -60,55 +54,13 @@ function leave_it(evt, contactName,contact_email){
     }
   
     // Show the current tab, and add an "active" class to the link that opened the tab
-    const parentdiv = document.getElementById("chat-feed");
-    let newdiv = document.createElement("new_middlepane");
-    newdiv.id = contactName
-    newdiv.innerHTML = `
-    <div class="chat-feed" id="chat-feed">
-      <div class="chat-title-container">
-          <div class="chat-title" id="Contactonpage" >${contactName}</div>
-          <div class="chat-subtitle">${contact_email}</div>
+    let parentdiv = document.getElementById("push-message-block");
+    parentdiv.innerHTML = ""
 
-      </div>
-      <div class="message-pad" id="message-pad">
-                  <div class="message-row" id="message-row">
-                    <div class="message-block" id="message-block">
-                        <img src="/static/images/avatar3.jpg" width="44px" height="44px" class="message-avatar">
-                      <div class="message" id="message" name="message">
-                        <p>This is probably the message from the sender you have been waiting</p>
-                      </div>
-                    </div>
-                  </div></div>
-    </div>
-    `
-
-    parentdiv.append(newdiv);
-    console.log(newdiv);
-    document.getElementById("sid").style.display = "none";
-    document.getElementById("chat-feed").style.display = "block";
-    evt.currentTarget.className += " active";
+    let title = document.getElementById("Contactonpage")
+    title.innerHTML = contactName
     
-} 
-
-// function respectiveMessagePad(evt,contactName){
-//     var i, tabcontent, tablinks;
-  
-//     // Get all elements with class="tabcontent" and hide them
-//     tabcontent = document.getElementsByClassName("middlepane");
-//     for (i = 0; i < tabcontent.length; i++) {
-//       tabcontent[i].style.display = "none";
-//     }
-  
-//     // Get all elements with class="tablinks" and remove the class "active"
-//     tablinks = document.getElementsByClassName("ce-conversation");
-//     for (i = 0; i < tablinks.length; i++) {
-//       tablinks[i].className = tablinks[i].className.replace(" active", "");
-//     }
-  
-//     // Show the current tab, and add an "active" class to the link that opened the tab
-//     document.getElementById(contactName).style.display = "block";
-//     evt.currentTarget.className += " active";
-// }
+}
 
 function recieve_contacts(){
     let xhr1 = new XMLHttpRequest();
@@ -139,7 +91,7 @@ function recieve_contacts(){
                 console.log(parentdiv.innerHTML)
                 let newdiv = document.createElement("new_contact");
                 newdiv.id = "new_contact"
-                newdiv.innerHTML = `<div id="conversation" onclick = "leave_it(event, '${element}','gmail.com')">
+                newdiv.innerHTML = `<div id="conversation" onclick = "leave_it('${contact}','gmail.com')">
                 <div><h4>${contact}</h4></div>
                 <div class="ce-chat-subtitle-text"><p>last Message</p></div>
                 <div class="ce-chat-time-text">${j}</div>
@@ -166,7 +118,7 @@ recieve_contacts()
 
 function renderSendersMessage(message){
 
-    const maindiv = document.getElementById("message-pad");
+    const maindiv = document.getElementById("push-message-block");
     let userdiv = document.createElement("div");
     userdiv.id = "user";
     userdiv.innerHTML = `</div>
@@ -189,7 +141,7 @@ function renderSendersMessage(message){
 
 function renderMyMessageToScreen(message) {
 
-    const maindiv = document.getElementById("message-pad");
+    const maindiv = document.getElementById("push-message-block");
     let userdiv = document.createElement("div");
     userdiv.id = "user";
     userdiv.innerHTML = `<div class="message-row">
@@ -200,10 +152,6 @@ function renderMyMessageToScreen(message) {
             </div>
         </div>`;
     maindiv.appendChild(userdiv);
-    // let last_message = document.getElementById("conversation");
-    // last_message.innerHTML=`<div><h4 id="Contact">sid</h4></div>
-    // <div class="ce-chat-subtitle-text"><p>${message}</p></div>
-    // <div class="ce-chat-time-text">08:55</div>`;
 }
 
 function recievemessage(){
@@ -239,7 +187,7 @@ function recievemessage(){
         "content": {
             "token": localStorage.getItem("token"),
         },
-        "sender": document.getElementById("Contact").innerHTML
+        "sender": document.getElementById("Contactonpage").innerHTML
     })
     
     console.log(data);
