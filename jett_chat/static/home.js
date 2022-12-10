@@ -125,7 +125,6 @@ function renderSendersMessage(message){
              <div class="message-pad" id="message-pad">
               <div class="message-row" id="message-row">
                 <div class="message-block" id="message-block">
-                    <img src="avatar3.jpg" width="44px" height="44px" class="message-avatar">
                   <div class="message" id="message" name="message">
                     <p>${message}</p>
                   </div>
