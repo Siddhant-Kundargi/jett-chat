@@ -82,8 +82,7 @@ def message_broker():
                 sender = content['sender']
 
                 if uname:
-                    
-                    print(sender, uname)
+
                     conversation_id = broker.get_conversation_id(sender, uname) 
                     message_list = broker.get_new_messages(conversation_id ,uname)
                     return jsonify({"messageList": list(message_list)})
