@@ -24,6 +24,9 @@ function sendJSONdet(){
             if (xhr.readyState === 4 && xhr.status === 200){
                 
                 result.innerHTML = this.responseText;
+                if(xhr.status = 200){
+                    document.location.href = "/login"
+                }
             }
         };
 
